@@ -1,4 +1,7 @@
 let TRIGGER_INTERVAL = 10; // in minutes
+let MANGADEX_RSS = "https://mangadex.org/rss/your-rss"; // Paste here your RSS link
+let WEBHOOK_NAME = "MangaDex"; // Name that the webhook will use
+let AVATAR_URL = "https://mangadex.org/images/misc/default_brand.png?1"; // Avatar that the webhook will use
 let WEBHOOKS_SHEET = "webhooks";
 let FILTERS_SHEET = "filters";
 
@@ -18,10 +21,9 @@ function main() {
 
 function getLatestMangas(){
   
-  let url = "https://mangadex.org/rss/QbWK2U7SFDuVtvfxGnMeRNdPcarTYq59";
   let mangaUrl = "https://mangadex.org/api/manga/";
   
-  let response = request(url, "GET", null, false);
+  let response = request(MANGADEX_RSS, "GET", null, false);
   
   let regex = new RegExp(/<item>(.+?)<\/item>/sg);
   
@@ -74,7 +76,7 @@ function sendMangaToWebhook(manga){
   
   if (!webhooks) return;
   
-  var desc = "\n\n**------Manga details------**\n\n";
+  var desc = "\n\n**------ Manga details ------**\n\n";
   
   if (manga["artist"]) desc += `**Artist:** ${manga.artist}\n`;
   if (((manga["author"] && manga["artist"]) && (manga["author"] != manga["artist"])) 
@@ -83,10 +85,20 @@ function sendMangaToWebhook(manga){
   if (manga["mal"]) desc += `[View on MAL](${manga.mal})\n`;
   if (manga["rating"]) desc += `\n**Rating:** ${manga.rating} (${manga.users} reviews)`;
   
+  let title;
+  
+  try {
+    title = manga.title.match(/.+ - (.+)/)[1];
+  } catch (e) {
+    title = manga.title;
+    console.log(manga.title);
+    console.log(e);
+  }
+  
   let payload = {
     "embeds": [
       {
-        "title": manga.title.match(/.+ - (.+)/)[1],
+        "title": title,
         "description": manga.description + desc,
         "url": manga.link,
         "color": 16742144,
@@ -100,8 +112,8 @@ function sendMangaToWebhook(manga){
         }
       }
     ],
-    "username": "MangaDex",
-    "avatar_url": "https://mangadex.org/images/misc/default_brand.png?1"
+    "username": WEBHOOK_NAME,
+    "avatar_url": AVATAR_URL
   };
   
   webhooks.map(webhook => request(webhook, "POST", payload));

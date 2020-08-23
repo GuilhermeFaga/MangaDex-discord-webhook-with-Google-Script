@@ -34,6 +34,14 @@ Prerequisites:
 > If you chose a different time interval, don't forget to change the first line on `Code.gs`:  
 ![](https://imgur.com/Hhs1J6z.png)
 
+### MangaDex RSS
+
+ - Log in on MangaDex
+ - Go to [mangadex.org/updates](https://mangadex.org/updates) and copy the RSS link  
+ ![](https://imgur.com/ILIGmeV.png)
+ - Paste it on `Code.gs`  
+ ![](https://imgur.com/LyixhDv.png)
+
 ## Discord webhook setup and sheet configuration
 
 Prerequisites:
@@ -47,7 +55,7 @@ Prerequisites:
  - Copy the webhook url and paste it on the `webhooks` sheet  
  ![](https://imgur.com/YX8feZU.png)
  >To change it's name and avatar just edit these lines on `Code.gs`:  
- ![](https://imgur.com/DgzcMU1.png)
+ ![](https://imgur.com/vzKjOPj.png)
  
 >Example:  
 ![](https://imgur.com/kZ7N5f5.png)  
