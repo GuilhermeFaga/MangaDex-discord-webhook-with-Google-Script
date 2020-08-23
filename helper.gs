@@ -1,4 +1,4 @@
-function request(url, method, payload){
+function request(url, method, payload, json = true){
   
   let header = {
     'Content-Type': 'application/json'
@@ -18,6 +18,7 @@ function request(url, method, payload){
     if (code != 200 && code != 204) throw { error: code };
     console.log(`endpoint: ${url}    http response: ${code}`);
     if(code==204) return null;
+    if (json) return JSON.parse(fixCharset(response.getContentText("UTF-8")));
     return response.getContentText("UTF-8");
   } catch (error) {
     console.error(error);
@@ -41,4 +42,24 @@ Array.prototype.contains = function (needle) {
        if (this[i] == needle) return true;
    }
    return false;
+}
+
+function fixCharset(string) {
+  //Corrige erros de decodificação de string para ç, ^, `, &, e '
+
+  return string
+    .replace(/&#39;/g, "'")
+    .replace(/&ccedil;/g, "ç")
+    .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&atilde;/g, "ã")
+    .replace(/&otilde;/g, "õ")
+    .replace(/&aacute;/g, "á")
+    .replace(/&eacute;/g, "é")
+    .replace(/&iacute;/g, "í")
+    .replace(/&oacute;/g, "ó")
+    .replace(/&uacute;/g, "ú")
+    .replace(/&acirc;/g, "â")
+    .replace(/&ecirc;/g, "ê")
+    .replace(/&ocirc;/g, "ô");
 }
