@@ -19,16 +19,20 @@ Prerequisites:
  - Create a new Google Spreadsheet document ([sheets.new](sheets.new))
 
  - Add these two sheets (we'll use them later)
+ 
 ![](https://imgur.com/0TYIY3k.png)
 
 - Enter on the `Script editor`
+
 ![](https://imgur.com/UNCgkM4.png)
 
 - Paste all the code of `Code.gs` on the newly created `.gs`.
 - Create a new script file named `helper` and paste all the code from `helper.gs` inside it.
+
 ![](https://imgur.com/LlRvZxC.png)
 
 - Create a `trigger`
+
 ![](https://imgur.com/ucoVUyA.png)
 ![](https://imgur.com/xyLxBRb.png)
 > If you chose a different time interval, don't forget to change the first line on `Code.gs`:
@@ -43,8 +47,10 @@ Prerequisites:
 ### Steps
 
 -  On your discord server, go to `Server Settings > Integrations` and create a new webhook:
+
 ![](https://imgur.com/InuvbSN.png)
  - Copy the webhook url and paste it on the `webhooks` sheet
+ 
  ![](https://imgur.com/YX8feZU.png)
  >To change it's name and avatar just edit these lines on `Code.gs` :
  ![](https://imgur.com/DgzcMU1.png)
