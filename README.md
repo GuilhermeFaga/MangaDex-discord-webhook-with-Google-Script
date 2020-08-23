@@ -39,6 +39,7 @@ Prerequisites:
  - Log in on MangaDex
  - Go to [mangadex.org/updates](https://mangadex.org/updates) and copy the RSS link  
  ![](https://imgur.com/ILIGmeV.png)
+ 
  - Paste it on `Code.gs`  
  ![](https://imgur.com/LyixhDv.png)
 
