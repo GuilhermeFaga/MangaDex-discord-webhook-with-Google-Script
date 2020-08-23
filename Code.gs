@@ -1,6 +1,6 @@
 let TRIGGER_INTERVAL = 10; // in minutes
-let MANGADEX_RSS = "https://mangadex.org/rss/u2gfGAWPzqv8aSpcY4BM9XEtwyRZexD3"; // Paste here your RSS link
-let WEBHOOK_NAME = "MangaDex Bot"; // Name that the webhook will use
+let MANGADEX_RSS = "https://mangadex.org/rss/link"; // Paste here your RSS link
+let WEBHOOK_NAME = "MangaDex"; // Name that the webhook will use
 let AVATAR_URL = "https://mangadex.org/images/misc/default_brand.png?1"; // Avatar that the webhook will use
 let WEBHOOKS_SHEET = "webhooks";
 let FILTERS_SHEET = "filters";
