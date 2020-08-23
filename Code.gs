@@ -1,9 +1,10 @@
 let TRIGGER_INTERVAL = 10; // in minutes
-let MANGADEX_RSS = "https://mangadex.org/rss/your-rss"; // Paste here your RSS link
-let WEBHOOK_NAME = "MangaDex"; // Name that the webhook will use
+let MANGADEX_RSS = "https://mangadex.org/rss/u2gfGAWPzqv8aSpcY4BM9XEtwyRZexD3"; // Paste here your RSS link
+let WEBHOOK_NAME = "MangaDex Bot"; // Name that the webhook will use
 let AVATAR_URL = "https://mangadex.org/images/misc/default_brand.png?1"; // Avatar that the webhook will use
 let WEBHOOKS_SHEET = "webhooks";
 let FILTERS_SHEET = "filters";
+let ROLES = "roles";
 
 function timerTrigger() {
   main();
@@ -71,6 +72,15 @@ function mangaIsNew(manga){
 function sendMangaToWebhook(manga){
   
   let webhooks = getArrayFromSheets(WEBHOOKS_SHEET);
+  let mangaWhitelist = getArrayFromSheets(ROLES);
+  
+  var role = "";
+  for (var i = 0; i < mangaWhitelist.length; i++){
+    if(mangaWhitelist[i][0] == manga.id){
+      console.log(mangaWhitelist[i][1]);
+      role = mangaWhitelist[i][1];
+      }
+     }
   
   console.log(webhooks);
   
@@ -113,7 +123,8 @@ function sendMangaToWebhook(manga){
       }
     ],
     "username": WEBHOOK_NAME,
-    "avatar_url": AVATAR_URL
+    "avatar_url": AVATAR_URL,
+    "content": role
   };
   
   webhooks.map(webhook => request(webhook, "POST", payload));
