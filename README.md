@@ -49,7 +49,7 @@ Prerequisites:
  >To change it's name and avatar just edit these lines on `Code.gs`:  
  ![](https://imgur.com/DgzcMU1.png)
  
->Example:
+>Example:  
 ![](https://imgur.com/kZ7N5f5.png)  
 > To have the script send it to more than one webhook, just paste others in the same column
 
