@@ -11,10 +11,10 @@ For this to properly work it reads the RSS feed provided, then processes the dat
 
 ## Some features
 
- - Send to multiple webhooks
+ - Send the updates to multiple discord servers
  - Easy manga filtering (whitelist)
  - Mention multiple roles on the manga whitelisted
- - It let you know if there's an update available
+ - It let you know if there's an update of the script available
 
 ## Google Script setup
 
