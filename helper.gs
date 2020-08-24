@@ -25,15 +25,17 @@ function request(url, method, payload, json = true){
   }
 }
 
-function getArrayFromSheets(sheetName) {
+function getArrayFromSheets(sheetName, columns = 0) {
   let ss = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   let lastrow = ss.getLastRow();
   var values;
   try {
-    values = ss.getRange(1, 1, ss.getLastRow(), ss.getLastColumn()).getValues();
+    if (columns == 0) columns = ss.getLastColumn();
+    values = ss.getRange(1, 1, ss.getLastRow(), columns).getValues();
   } catch (e) {
     return null;  
   }
+  console.log(values);
   return values;
 }
 
