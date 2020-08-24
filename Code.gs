@@ -4,7 +4,7 @@ let WEBHOOK_NAME = "MangaDex"; // Name that the webhook will use
 let AVATAR_URL = "https://mangadex.org/images/misc/default_brand.png?1"; // Avatar that the webhook will use
 let WEBHOOKS_SHEET = "webhooks";
 let FILTERS_SHEET = "filters";
-let CURRENT_VERSION = "1.1";
+let CURRENT_VERSION = "1.2";
 
 var isUpdated = true;
 
@@ -15,6 +15,8 @@ function timerTrigger() {
 function main() {
   checkIfScriptIsUpdated();
   let mangas = getLatestMangas();
+  
+  if (!mangas) return;
   
   for (var i = 0; i < mangas.length; i++) {
     let manga = mangas[i];
@@ -36,7 +38,7 @@ function getLatestMangas(){
   
   let regex = new RegExp(/<item>(.+?)<\/item>/sg);
   
-  let mangaWhitelist = getArrayFromSheets(FILTERS_SHEET);
+  let mangaWhitelist = getArrayFromSheets(FILTERS_SHEET, 1);
   
   if (!regex.test(response)) return null;
   
@@ -73,7 +75,6 @@ function getLatestMangas(){
       if (_manga.id != manga.id) continue;
       if (!_manga["chapters"]) _manga["chapters"] = [];
       _manga["chapters"].push(`[${manga.title}](${manga.link})\n`);
-//      _manga.description = `[${manga.title}](${manga.link})\n` + _manga.description;
       isDuplicated = true;
       break;
     }
@@ -105,9 +106,18 @@ function mangaIsNew(manga){
 
 function sendMangaToWebhook(manga){
   
-  let webhooks = getArrayFromSheets(WEBHOOKS_SHEET);
+  let webhooks = getArrayFromSheets(WEBHOOKS_SHEET, 1);
   
-  console.log(webhooks);
+  let mangaWhitelist = getArrayFromSheets(FILTERS_SHEET);
+  
+  var roles = "";
+  if (mangaWhitelist) {
+    for (var i = 0; i < mangaWhitelist.length; i++){
+      if(mangaWhitelist[i][0] == manga.id && mangaWhitelist[i][1]){
+        role += "<@&" + mangaWhitelist[i][1] + ">";
+      }
+    }
+  }
   
   if (!webhooks) return;
   
@@ -143,7 +153,8 @@ function sendMangaToWebhook(manga){
       }
     ],
     "username": WEBHOOK_NAME,
-    "avatar_url": AVATAR_URL
+    "avatar_url": AVATAR_URL,
+    "content": roles
   };
   
   webhooks.map(webhook => request(webhook, "POST", payload));
