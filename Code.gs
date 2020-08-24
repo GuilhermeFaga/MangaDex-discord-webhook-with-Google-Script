@@ -114,7 +114,7 @@ function sendMangaToWebhook(manga){
   if (mangaWhitelist) {
     for (var i = 0; i < mangaWhitelist.length; i++){
       if(mangaWhitelist[i][0] == manga.id && mangaWhitelist[i][1]){
-        role += "<@&" + mangaWhitelist[i][1] + ">";
+        roles += "<@&" + mangaWhitelist[i][1] + ">";
       }
     }
   }
