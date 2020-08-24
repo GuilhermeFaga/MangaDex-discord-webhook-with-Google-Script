@@ -82,6 +82,8 @@ To use the role mentioning just copy the id of the role you want to be mentioned
 
 ![](https://user-images.githubusercontent.com/32572430/90993278-9ec24200-e58a-11ea-83a0-c33271cadaa3.png)
 
+> Be sure to [enable developer mode](https://discordia.me/en/developer-mode) to be able to copy the role id
+
 > To mention more than one role per manga just repeat the manga id, useful for an "All mangas" role
 
 #### After all of this is done you are good to go and have updates to your recently released manga chapters in Discord!
