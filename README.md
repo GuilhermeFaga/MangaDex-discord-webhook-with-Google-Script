@@ -9,6 +9,13 @@ For this to properly work it reads the RSS feed provided, then processes the dat
 
 #### It takes less than 15 minutes to setup everything! No need for downloads!
 
+## Some features
+
+ - Send to multiple webhooks
+ - Easy manga filtering (whitelist)
+ - Mention multiple roles on the manga whitelisted
+ - It let you know if there's an update available
+
 ## Google Script setup
 
 Prerequisites:
@@ -62,12 +69,19 @@ Prerequisites:
 ![](https://imgur.com/kZ7N5f5.png)  
 > To have the script send it to more than one webhook, just paste others in the same column
 
-### Manga filtering
+### Manga filtering and role mentioning
 - Just add the mangas ids on the first column on the `filters` sheet
 > You can found the manga id here:  
 ![](https://imgur.com/DUDXEVp.png)
 
 >Example:  
 ![](https://imgur.com/OXGx6aq.png)
+
+To use the role mentioning just copy the id of the role you want to be mentioned and paste it besides the manga id  
+![](https://user-images.githubusercontent.com/32572430/90993293-ad105e00-e58a-11ea-8a26-ddb5094bd8b2.png)
+
+![](https://user-images.githubusercontent.com/32572430/90993278-9ec24200-e58a-11ea-83a0-c33271cadaa3.png)
+
+> To mention more than one role per manga just repeat the manga id, useful for an "All mangas" role
 
 #### After all of this is done you are good to go and have updates to your recently released manga chapters in Discord!
