@@ -3,7 +3,7 @@
 
 When running the script the output will look like this:
 
-![](https://imgur.com/92jWaXu.png)
+![](https://imgur.com/s1bITn1.png)
 
 For this to properly work it reads the RSS feed provided, then processes the data and the script then forwards it to Discord via a webhook.
 
