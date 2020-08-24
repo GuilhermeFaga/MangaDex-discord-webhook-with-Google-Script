@@ -20,15 +20,13 @@ function main() {
   
   for (var i = 0; i < mangas.length; i++) {
     let manga = mangas[i];
-    
     sendMangaToWebhook(manga);
   }
 }
 
 function checkIfScriptIsUpdated(){
-  let url = "https://api.github.com/repos/GuilhermeFaga/MangaDex-discord-webhook-with-Google-Script/releases"
+  let url = "https://api.github.com/repos/GuilhermeFaga/MangaDex-discord-webhook-with-Google-Script/releases";
   let latestVersion = request(url, "GET")[0];
-  
   if (latestVersion.name > CURRENT_VERSION) isUpdated = false;
 }
 
@@ -77,7 +75,6 @@ function getLatestMangas(){
       if (_manga.id != manga.id) continue;
       if (!_manga["chapters"]) _manga["chapters"] = [];
       _manga["chapters"].push(`[${manga.title}](${manga.link})\n`);
-      //      _manga.description = `[${manga.title}](${manga.link})\n` + _manga.description;
       isDuplicated = true;
       break;
     }
@@ -113,7 +110,7 @@ function sendMangaToWebhook(manga){
   
   let mangaWhitelist = getArrayFromSheets(FILTERS_SHEET);
   
-  var role = "";
+  var roles = "";
   if (mangaWhitelist) {
     for (var i = 0; i < mangaWhitelist.length; i++){
       if(mangaWhitelist[i][0] == manga.id && mangaWhitelist[i][1]){
@@ -134,7 +131,6 @@ function sendMangaToWebhook(manga){
   if (manga["mal"]) desc += `[View on MAL](${manga.mal})\n`;
   if (manga["rating"]) desc += `\n**Rating:** ${manga.rating} (${manga.users} reviews)`;
   if (manga["chapters"]) preDesc = manga["chapters"].join("") + "\n";
-  
   
   let payload = {
     "embeds": [
@@ -158,7 +154,7 @@ function sendMangaToWebhook(manga){
     ],
     "username": WEBHOOK_NAME,
     "avatar_url": AVATAR_URL,
-    "content": role
+    "content": roles
   };
   
   webhooks.map(webhook => request(webhook, "POST", payload));
