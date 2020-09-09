@@ -4,7 +4,7 @@ let WEBHOOK_NAME = "MangaDex"; // Name that the webhook will use
 let AVATAR_URL = "https://mangadex.org/images/misc/default_brand.png?1"; // Avatar that the webhook will use
 let WEBHOOKS_SHEET = "webhooks";
 let FILTERS_SHEET = "filters";
-let CURRENT_VERSION = "1.3";
+let CURRENT_VERSION = "1.2.2";
 
 var isUpdated = true;
 
@@ -14,7 +14,7 @@ function timerTrigger() {
 
 function main() {
   checkIfScriptIsUpdated();
-  let mangas = getLatestMangas();
+  let mangas = getLatestMangas().sort((a, b) => a.date - b.date); // We sort manga webhooks by its update time in an array in ascending order
   
   if (!mangas) return;
   
@@ -95,7 +95,7 @@ function getLatestMangas(){
     }
     mangas.push(manga);
   }
-  return mangas.sort((a, b) => a.date - b.date); // We sort manga dates in an array in ascending order
+  return mangas;
 }
 
 function mangaIsNew(manga){
