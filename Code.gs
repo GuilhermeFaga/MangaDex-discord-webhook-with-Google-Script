@@ -20,7 +20,7 @@ function main() {
   
   for (var i = 0; i < mangas.length; i++) {
     let manga = mangas[i];
-    sendMangaToWebhook(manga);
+    if (manga) sendMangaToWebhook(manga);
   }
 }
 
