@@ -1,10 +1,11 @@
 let TRIGGER_INTERVAL = 10; // in minutes
-let MANGADEX_RSS = "https://mangadex.org/rss/your-rss"; // Paste here your RSS link
+let MANGADEX_RSS = "https://mangadex.org/rss/QbWK2U7SFDuVtvfxGnMeRNdPcarTYq59"; // Paste here your RSS link
 let WEBHOOK_NAME = "MangaDex"; // Name that the webhook will use
 let AVATAR_URL = "https://mangadex.org/images/misc/default_brand.png?1"; // Avatar that the webhook will use
 let WEBHOOKS_SHEET = "webhooks";
 let FILTERS_SHEET = "filters";
-let CURRENT_VERSION = "1.2";
+let SHOW_HENTAI = false;
+let CURRENT_VERSION = "1.3";
 
 var isUpdated = true;
 
@@ -14,7 +15,7 @@ function timerTrigger() {
 
 function main() {
   checkIfScriptIsUpdated();
-  let mangas = getLatestMangas();
+  let mangas = getLatestMangas().sort((a, b) => a.date - b.date);
   
   if (!mangas) return;
   
@@ -32,7 +33,7 @@ function checkIfScriptIsUpdated(){
 
 function getLatestMangas(){
   
-  let mangaUrl = "https://mangadex.org/api/manga/";
+  let mangaUrl = "https://api.mangadex.org/v2/manga/";
   
   let response = request(MANGADEX_RSS, "GET", null, false);
   
@@ -57,7 +58,9 @@ function getLatestMangas(){
     
     if (!(mangaIsNew(manga) && (!mangaWhitelist || mangaWhitelist.contains(manga.id)))) continue;
     
-    var mangaDetails = request(mangaUrl + manga.id, "GET")["manga"];
+    var mangaDetails = request(mangaUrl + manga.id, "GET")["data"];
+    if (mangaDetails["isHentai"] && !SHOW_HENTAI) continue;
+
     manga["link"] = item.match(/<link>(.+?)<\/link>/s)[1];
     manga["title"] = item.match(/<title>(.+?)<\/title>/s)[1];
     
@@ -85,17 +88,17 @@ function getLatestMangas(){
     manga["manga_title"] = mangaDetails["title"] ? mangaDetails["title"] : "";
     manga["artist"] = mangaDetails["artist"] ? mangaDetails["artist"] : "";
     manga["author"] = mangaDetails["author"] ? mangaDetails["author"] : "";
-    manga["lang"] = mangaDetails["lang_name"] ? mangaDetails["lang_name"] : "";
+    manga["lang"] = mangaDetails["publication"]["language"] ? mangaDetails["publication"]["language"] : "";
     if (mangaDetails["links"])
       manga["mal"] = mangaDetails["links"]["mal"] ? "https://myanimelist.net/manga/" + mangaDetails["links"]["mal"] : "";
-    manga["cover_url"] = mangaDetails["cover_url"] ? "https://mangadex.org" + mangaDetails["cover_url"] : "";
+    manga["cover_url"] = mangaDetails["mainCover"] ? mangaDetails["mainCover"] : "";
     if (mangaDetails["rating"]){
       manga["rating"] = mangaDetails["rating"]["bayesian"] ? mangaDetails["rating"]["bayesian"] : "";
       manga["users"] = mangaDetails["rating"]["users"] ? mangaDetails["rating"]["users"] : "";
     }
     mangas.push(manga);
   }
-  return mangas.reverse();
+  return mangas;
 }
 
 function mangaIsNew(manga){
